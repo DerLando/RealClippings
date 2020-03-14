@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Eto.Forms;
+using RealClippings.UI.Models;
 using Rhino.UI;
 using Size = Eto.Drawing.Size;
 
@@ -16,14 +17,16 @@ namespace RealClippings.UI.Views
     {
         // Fields
         private readonly uint _document_sn;
+        private ClippingPlaneListViewModel _clipping_plane_list_model;
 
         // Controls
         private DynamicGroup _gB_Search = new DynamicGroup() {Title = "Search"};
         private SearchBox _sB_Search = new SearchBox();
-        private ListBox _lB_ClippingPlanes = new ListBox();
+        private GridView _gV_ClippingPlanes = new GridView();
 
         // Auto-initialized properties
         public static Guid PanelId => typeof(ClippingPlaneManagerPanel).GUID;
+        public bool IsModelInitialized => !(_clipping_plane_list_model is null);
 
         public ClippingPlaneManagerPanel(uint documentSerialNumber)
         {
@@ -33,16 +36,51 @@ namespace RealClippings.UI.Views
             // Set up group boxes
             _gB_Search.Add(_sB_Search);
 
+            // Set up grid view
+            #region Grid columns
+
+            // name
+            _gV_ClippingPlanes.Columns.Add(new GridColumn
+            {
+                HeaderText = "Name",
+                DataCell = new TextBoxCell("Name"),
+                Editable = true,
+            });
+
+            // active
+            _gV_ClippingPlanes.Columns.Add(new GridColumn
+            {
+                HeaderText = "Active",
+                DataCell = new CheckBoxCell("IsActive"),
+                Editable = true,
+            });
+
+            #endregion
+
             // write layout
             var layout = new DynamicLayout();
             layout.Padding = 10;
             layout.Spacing = new Size(5, 5);
 
             layout.Add(_gB_Search.Create(layout));
-            layout.Add(_lB_ClippingPlanes);
+            layout.Add(_gV_ClippingPlanes);
             layout.Add(null);
 
             Content = layout;
+        }
+
+        public void SetClippingPlaneListModel(ClippingPlaneListViewModel model)
+        {
+            _clipping_plane_list_model = model;
+
+            // set up bindings for grid view
+            _gV_ClippingPlanes.DataContext = _clipping_plane_list_model;
+            _gV_ClippingPlanes.DataStore = _clipping_plane_list_model.Planes;
+            _gV_ClippingPlanes.SelectedItemBinding.BindDataContext((ClippingPlaneListViewModel avm) =>
+            avm.SelectedClippingPlane);
+
+            // redraw
+            _gV_ClippingPlanes.Invalidate();
         }
 
         #region IPanel methods

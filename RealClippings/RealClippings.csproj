@@ -56,6 +56,7 @@
     <Compile Include="Clippings.cs" />
     <Compile Include="RealClippingsPlugIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Models\ClippingPlaneListViewModel.cs" />
     <Compile Include="UI\Models\ClippingPlaneModel.cs" />
     <Compile Include="UI\Views\ClippingPlaneManagerPanel.cs" />
   </ItemGroup>
