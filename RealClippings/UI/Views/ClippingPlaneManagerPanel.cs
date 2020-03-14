@@ -33,10 +33,15 @@ namespace RealClippings.UI.Views
             //sn field
             _document_sn = documentSerialNumber;
 
+            // Set up context menu
+            _gV_ClippingPlanes.ContextMenu = new ClippingPlaneGridContextMenu(_gV_ClippingPlanes);
+
             // Set up group boxes
             _gB_Search.Add(_sB_Search);
 
             // Set up grid view
+            _gV_ClippingPlanes.ShowHeader = true;
+
             #region Grid columns
 
             // name

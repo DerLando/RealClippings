@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Rhino;
+using Rhino.Display;
 using Rhino.DocObjects;
+using Rhino.Geometry;
 
 namespace RealClippings.UI.Models
 {
@@ -37,6 +39,8 @@ namespace RealClippings.UI.Models
             }
         }
 
+        public Plane Plane => GetPlane();
+
         public ClippingPlaneModel(RhinoDoc doc, ClippingPlaneObject clippingPlaneObject)
         {
             _doc = doc;
@@ -50,6 +54,11 @@ namespace RealClippings.UI.Models
         private ClippingPlaneObject GetClippingPlaneObject()
         {
             return (ClippingPlaneObject)_doc.Objects.Find(_guid);
+        }
+
+        private Plane GetPlane()
+        {
+            return GetClippingPlaneObject().ClippingPlaneGeometry.Plane;
         }
 
         private void SetPlaneActive(bool isActive)
@@ -70,6 +79,18 @@ namespace RealClippings.UI.Models
             clippingObject.Attributes.Name = name;
 
             clippingObject.CommitChanges();
+        }
+
+        public void AddClippedViewport(RhinoViewport vp)
+        {
+            var clippingObject = GetClippingPlaneObject();
+            clippingObject.AddClipViewport(vp, true);
+            clippingObject.CommitChanges();
+        }
+
+        public BoundingBox GetBoundingBox()
+        {
+            return GetClippingPlaneObject().ClippingPlaneGeometry.GetBoundingBox(Plane);
         }
     }
 }
