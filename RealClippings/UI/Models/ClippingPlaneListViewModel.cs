@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using Rhino;
 using Rhino.DocObjects;
 
@@ -20,6 +15,7 @@ namespace RealClippings.UI.Models
             get => _selectedClippingPlane;
             set { _selectedClippingPlane = value; }
         }
+
         public ClippingPlaneListViewModel(RhinoDoc doc)
         {
             var clippingPlanes = doc.Objects.GetObjectsByType<ClippingPlaneObject>();

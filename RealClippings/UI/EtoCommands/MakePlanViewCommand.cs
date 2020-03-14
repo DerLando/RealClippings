@@ -9,6 +9,9 @@ using Rhino.Display;
 
 namespace RealClippings.UI.EtoCommands
 {
+    /// <summary>
+    /// Command to construct a plan view for the currently selected Clipping plane
+    /// </summary>
     public class MakePlanViewCommand : ClippingPlaneCommandBase
     {
         public MakePlanViewCommand()

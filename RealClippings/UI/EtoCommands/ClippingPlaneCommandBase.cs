@@ -8,6 +8,9 @@ using RealClippings.UI.Models;
 
 namespace RealClippings.UI.EtoCommands
 {
+    /// <summary>
+    /// Abstract base class for all commands acting on clipping planes
+    /// </summary>
     public abstract class ClippingPlaneCommandBase : Command
     {
         protected ClippingPlaneModel _model = null;
