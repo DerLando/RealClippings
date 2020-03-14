@@ -88,9 +88,12 @@ namespace RealClippings.UI.Models
             clippingObject.CommitChanges();
         }
 
-        public BoundingBox GetBoundingBox()
+        public BoundingBox GetBoundingBox(Plane plane)
         {
-            return GetClippingPlaneObject().ClippingPlaneGeometry.GetBoundingBox(Plane);
+            var bbox = GetClippingPlaneObject().Geometry.GetBoundingBox(Plane);
+            bbox.Transform(Transform.Translation(Plane.Origin - plane.Origin));
+
+            return bbox;
         }
     }
 }

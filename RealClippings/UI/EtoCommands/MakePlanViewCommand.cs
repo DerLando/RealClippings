@@ -29,7 +29,7 @@ namespace RealClippings.UI.EtoCommands
             plane.Flip();
             _model.AddClippedViewport(view.ActiveViewport);
             view.ActiveViewport.SetToPlanView(plane.Origin, plane.XAxis, plane.YAxis, true);
-            view.ActiveViewport.ZoomBoundingBox(_model.GetBoundingBox());
+            view.ActiveViewport.ZoomBoundingBox(_model.GetBoundingBox(view.ActiveViewport.ConstructionPlane()));
             view.ActiveViewport.Name = _model.Name;
 
             doc.Views.RedrawEnabled = true;

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Rhino;
+﻿using Rhino;
 using Rhino.Commands;
-using Rhino.Geometry;
-using Rhino.Input;
-using Rhino.Input.Custom;
 using Rhino.UI;
 
-namespace RealClippings
+namespace RealClippings.Commands
 {
     public class Clippings : Command
     {
