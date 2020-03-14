@@ -5,6 +5,7 @@ using Rhino.Commands;
 using Rhino.Geometry;
 using Rhino.Input;
 using Rhino.Input.Custom;
+using Rhino.UI;
 
 namespace RealClippings
 {
@@ -12,6 +13,9 @@ namespace RealClippings
     {
         public Clippings()
         {
+            // register clipping plane manager panel
+            Panels.RegisterPanel(PlugIn, typeof(UI.Views.ClippingPlaneManagerPanel), "Clippings", null);
+
             // Rhino only creates one instance of each command class defined in a
             // plug-in, so it is safe to store a refence in a static property.
             Instance = this;
@@ -31,8 +35,21 @@ namespace RealClippings
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
-            RhinoApp.WriteLine("The {0} command is under construction.", EnglishName);
+            var panelId = UI.Views.ClippingPlaneManagerPanel.PanelId;
+            var visible = Panels.IsPanelVisible(panelId);
 
+            var prompt = (visible)
+                ? "ClippingPlane panel is visible"
+                : "ClippingPlane panel is hidden";
+
+            RhinoApp.WriteLine(prompt);
+
+            // toggle visible
+            if (!visible)
+            {
+                Panels.OpenPanel(panelId);
+            }
+            else Panels.ClosePanel(panelId);
             return Result.Success;
         }
     }

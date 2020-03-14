@@ -1,4 +1,8 @@
-﻿namespace RealClippings
+﻿using RealClippings.UI.Views;
+using Rhino.PlugIns;
+using Rhino.UI;
+
+namespace RealClippings
 {
     ///<summary>
     /// <para>Every RhinoCommon .rhp assembly must have one and only one PlugIn-derived
