@@ -50,6 +50,11 @@ namespace RealClippings.UI.Models
         /// </summary>
         public Plane Plane => GetPlane();
 
+        /// <summary>
+        /// The Guid associated with the models ClippingPlane
+        /// </summary>
+        public Guid Guid => _guid;
+
         public ClippingPlaneModel(RhinoDoc doc, ClippingPlaneObject clippingPlaneObject)
         {
             _doc = doc;

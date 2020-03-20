@@ -13,6 +13,7 @@ namespace RealClippings.UI.Views
     {
         private readonly GridView _gV_parent;
         private readonly MakePlanViewCommand _planViewCommand = new MakePlanViewCommand();
+        private readonly SelectCommand _selectCommand = new SelectCommand();
 
         public ClippingPlaneGridContextMenu(GridView parent)
         {
@@ -23,6 +24,8 @@ namespace RealClippings.UI.Views
             InitializeCommands();
 
             // Selection
+            Items.Add(_selectCommand.CreateMenuItem());
+            Items.Add(new SeparatorMenuItem());
 
             // Visuals
             Items.Add(_planViewCommand.CreateMenuItem());
@@ -39,6 +42,7 @@ namespace RealClippings.UI.Views
             var models = TryGetParentSelectedModels();
 
             _planViewCommand.SetClippingPlanes(models);
+            _selectCommand.SetClippingPlanes(models);
         }
 
         private IEnumerable<ClippingPlaneModel> TryGetParentSelectedModels()

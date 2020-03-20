@@ -27,7 +27,7 @@ namespace RealClippings.UI.EtoCommands
             var doc = RhinoDoc.ActiveDoc;
             doc.Views.RedrawEnabled = false;
 
-            if (_models is null) return;
+            if (_models.Length == 0) return;
 
             foreach (var clippingPlaneModel in _models)
             {
