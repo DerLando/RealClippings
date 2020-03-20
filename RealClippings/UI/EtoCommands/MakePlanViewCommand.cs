@@ -17,7 +17,7 @@ namespace RealClippings.UI.EtoCommands
         public MakePlanViewCommand()
         {
             MenuText = "Set view";
-            ToolTip = "Creates a plan view for the selected clipping plane";
+            ToolTip = "Creates an individual plan view for each of the selected clipping planes";
         }
 
         protected override void OnExecuted(EventArgs e)
@@ -27,13 +27,18 @@ namespace RealClippings.UI.EtoCommands
             var doc = RhinoDoc.ActiveDoc;
             doc.Views.RedrawEnabled = false;
 
-            var view = doc.Views.Add(_model.Name, DefinedViewportProjection.None, doc.Views.ActiveView.Bounds, true);
-            var plane = _model.Plane;
-            plane.Flip();
-            _model.AddClippedViewport(view.ActiveViewport);
-            view.ActiveViewport.SetToPlanView(plane.Origin, plane.XAxis, plane.YAxis, true);
-            view.ActiveViewport.ZoomBoundingBox(_model.GetBoundingBox(view.ActiveViewport.ConstructionPlane()));
-            view.ActiveViewport.Name = _model.Name;
+            if (_models is null) return;
+
+            foreach (var clippingPlaneModel in _models)
+            {
+                var view = doc.Views.Add(clippingPlaneModel.Name, DefinedViewportProjection.None, doc.Views.ActiveView.Bounds, true);
+                var plane = clippingPlaneModel.Plane;
+                plane.Flip();
+                clippingPlaneModel.AddClippedViewport(view.ActiveViewport);
+                view.ActiveViewport.SetToPlanView(plane.Origin, plane.XAxis, plane.YAxis, true);
+                view.ActiveViewport.ZoomBoundingBox(clippingPlaneModel.GetBoundingBox(view.ActiveViewport.ConstructionPlane()));
+                view.ActiveViewport.Name = clippingPlaneModel.Name;
+            }
 
             doc.Views.RedrawEnabled = true;
             doc.Views.Redraw();

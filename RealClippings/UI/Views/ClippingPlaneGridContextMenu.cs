@@ -18,7 +18,7 @@ namespace RealClippings.UI.Views
         {
             _gV_parent = parent;
 
-            _gV_parent.SelectedRowsChanged += On_Parent_SelectedRowChanged;
+            _gV_parent.SelectedItemsChanged += On_Parent_SelectedItemsChanged;
 
             InitializeCommands();
 
@@ -29,23 +29,23 @@ namespace RealClippings.UI.Views
             Items.Add(new SeparatorMenuItem());
         }
 
-        private void On_Parent_SelectedRowChanged(object sender, EventArgs e)
+        private void On_Parent_SelectedItemsChanged(object sender, EventArgs e)
         {
             InitializeCommands();
         }
 
         private void InitializeCommands()
         {
-            var model = TryGetParentSelectedModel();
+            var models = TryGetParentSelectedModels();
 
-            _planViewCommand.SetClippingPlane(model);
+            _planViewCommand.SetClippingPlanes(models);
         }
 
-        private ClippingPlaneModel TryGetParentSelectedModel()
+        private IEnumerable<ClippingPlaneModel> TryGetParentSelectedModels()
         {
-            if (_gV_parent.SelectedItem is null) return null;
+            if (_gV_parent.SelectedItems is null) return null;
 
-            return (ClippingPlaneModel) _gV_parent.SelectedItem;
+            return from obj in _gV_parent.SelectedItems select (ClippingPlaneModel) obj;
         }
     }
 }

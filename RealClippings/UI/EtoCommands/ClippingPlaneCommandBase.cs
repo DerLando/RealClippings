@@ -13,11 +13,12 @@ namespace RealClippings.UI.EtoCommands
     /// </summary>
     public abstract class ClippingPlaneCommandBase : Command
     {
-        protected ClippingPlaneModel _model = null;
+        protected ClippingPlaneModel[] _models = null;
 
-        public void SetClippingPlane(ClippingPlaneModel model)
+        public void SetClippingPlanes(IEnumerable<ClippingPlaneModel> models)
         {
-            _model = model;
+            if (models is null) return;
+            _models = models.ToArray();
         }
     }
 }

@@ -20,8 +20,7 @@ namespace RealClippings.UI.Views
         private ClippingPlaneListViewModel _clipping_plane_list_model;
 
         // Controls
-        private DynamicGroup _gB_Search = new DynamicGroup() {Title = "Search"};
-        private SearchBox _sB_Search = new SearchBox();
+        private SearchBox _sB_Search = new SearchBox{PlaceholderText = "Name"};
         private GridView _gV_ClippingPlanes = new GridView();
 
         // Auto-initialized properties
@@ -36,11 +35,9 @@ namespace RealClippings.UI.Views
             // Set up context menu
             _gV_ClippingPlanes.ContextMenu = new ClippingPlaneGridContextMenu(_gV_ClippingPlanes);
 
-            // Set up group boxes
-            _gB_Search.Add(_sB_Search);
-
             // Set up grid view
             _gV_ClippingPlanes.ShowHeader = true;
+            _gV_ClippingPlanes.AllowMultipleSelection = true;
 
             #region Grid columns
 
@@ -67,7 +64,7 @@ namespace RealClippings.UI.Views
             layout.Padding = 10;
             layout.Spacing = new Size(5, 5);
 
-            layout.Add(_gB_Search.Create(layout));
+            layout.Add(_sB_Search);
             layout.Add(_gV_ClippingPlanes);
             layout.Add(null);
 
